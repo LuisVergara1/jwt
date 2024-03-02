@@ -5,7 +5,7 @@ spring.jpa.hibernate.ddl-auto= update
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 # App Properties
-jwt.app.jwtSecret= .test2
+jwt.app.jwtSecret= .test1
 jwt.app.jwtExpirationMs=86400000
 
 #APP Mail
