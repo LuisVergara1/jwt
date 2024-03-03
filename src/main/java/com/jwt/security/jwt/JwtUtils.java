@@ -2,11 +2,13 @@ package com.jwt.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.jwt.security.services.UserDetailsImpl;
@@ -37,7 +39,12 @@ public class JwtUtils {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
+
         .setSubject((userPrincipal.getUsername()))
+        .claim("id", userPrincipal.getId())
+        .claim("roles", userPrincipal.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList()))
         .setIssuedAt(new Date())
         .setExpiration(new Date(new Date().getTime()+jwtExpirationMs))
         .signWith(key(),SignatureAlgorithm.HS256)

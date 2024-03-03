@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -71,7 +73,7 @@ public class AuthController {
         userDetails.getId(),
         userDetails.getUsername(),
         userDetails.getEmail(),
-         roles));
+        roles));
 
         }
 
@@ -134,15 +136,13 @@ public class AuthController {
         
         user.setRoles(roles);
         userRepository.save(user);
+       return new ResponseEntity<>(new MessageResponse("User registered successfully"), HttpStatus.OK);
+
 
 
         //Enviar Mail de Registro
 
         //emailService.sendEmail(user.getEmail(), "Registro exitoso", "¡Gracias por registrarte!");
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfull"));
-        
-
     }
 
 }
